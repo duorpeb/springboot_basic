@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}"
+>
+<div layout:fragment="content">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Writer</th>
+        <th scope="col">Register Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <th:block th:each="bvo:${list}">
+        <tr>
+          <!-- 쿼리스트링으로 복수 파라미터를 전달하는 경우
+            > <a th:href="@{/search(keyword=${keyword}, page=${page})}">검색</a> 형태로 작성
+          -->
+          <th scope="col"><a th:href="@{/board/detail(bno=${bvo.bno})}">[[${bvo.title}]]</a></th>
+          <th scope="col">[[${bvo.writer}]]</th>
+          <th scope="col">[[${bvo.regDate}]]</th>
+        </tr>
+      </th:block>
+    </tbody>
+  </table>
+
+  <script th:inline="javascript">
+    const delMsg = [[${delMsg}]];
+    console.log(delMsg);
+
+    if(delMsg == 'ok'){ alert('게시글 삭제 완료!'); }
+  </script>
+</div>
