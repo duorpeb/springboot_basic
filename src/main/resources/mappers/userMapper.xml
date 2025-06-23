@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.UserMapper">
+  <!-- // mypage 에서 모든 정보 업데이트 -->
+  <update id="allUpdate">
+    update user
+    set id = #{id}, email = #{email}, pwd = #{pwd}, nick_name = #{nickName}
+    ,file_name=#{fileName}
+    where id = #{id}
+  </update>
+
+  <!-- // mypage 에서 파일만 제외한 업데이트 -->
+  <update id="subFileUpdate">
+    update user
+    set id = #{id}, email = #{email}, pwd = #{pwd}, nick_name = #{nickName}
+    where id = #{id}
+  </update>
+
+  <!-- // mypage 에서 비밀번호만 제외한 업데이트 -->
+  <update id="subPwdUpdate">
+    update user
+    set id = #{id}, email = #{email}, nick_name = #{nickName}, file_name = #{fileName}
+    where id = #{id}
+  </update>
+
+  <!-- // mypage 에서 파일과 비밀번호만 제외한 업데이트 -->
+  <update id="subFilePwdUpdate">
+    update user
+    set id = #{id}, email = #{email}, nick_name = #{nickName}
+    where id = #{id}
+  </update>
+
+  <insert id="userJoin">
+    insert into user(id, email, pwd, nick_name, gender, terms)
+    values(#{id}, #{email}, #{pwd}, #{nickName}, #{gender}, #{terms})
+  </insert>
+
+  <insert id="userJoinAuth">
+    insert into auth(id, auth) values(#{id}, 'ROLE_USER')
+  </insert>
+
+  <select id="getUser" resultType="com.example.demo.domain.UserVO">
+    select * from user where id = #{id}
+  </select>
+
+  <select id="getUserAuth" resultType="com.example.demo.domain.AuthVO">
+    select * from auth where id = #{id}
+  </select>
+</mapper>

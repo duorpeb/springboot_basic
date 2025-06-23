@@ -3,13 +3,28 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.BoardMapper">
+  <update id="decreCmtCnt">
+    update board set cmt_cnt = cmt_cnt - 1 where bno = #{bno}
+  </update>
+
+  <update id="increCmtCnt">
+    update board set cmt_cnt = cmt_cnt + 1 where bno = #{bno}
+  </update>
+
+  <select id="getBno" resultType="long">
+    select max(bno) from board
+  </select>
+
   <insert id="insert">
     insert into board(title, writer, content)
     values(#{title}, #{writer}, #{content})
   </insert>
 
   <select id="getList" resultType="com.example.demo.domain.BoardVO">
-    select * from board order by reg_date desc
+    select * from board
+    <include refid="search"></include>
+    order by bno desc
+    limit #{startIdx}, #{qty}
   </select>
 
   <select id="getBvo" resultType="com.example.demo.domain.BoardVO">
@@ -23,4 +38,33 @@
   <update id="modify">
     update board set title = #{title}, content = #{content} where bno = #{bno}
   </update>
+
+  <select id="getTTC" resultType="int">
+    select count(bno) from board
+    <include refid="search"></include>
+  </select>
+
+  <sql id="search">
+    <if test="type != null">
+      <trim prefix="where (" suffix=")" suffixOverrides="or">
+        <foreach collection="typeToArray" item="type">
+          <trim suffix="or">
+            <choose>
+              <when test = "type='t'.toString()">
+                title like concat('%',#{keyword},'%')
+              </when>
+
+              <when test = "type='w'.toString()">
+                writer like concat('%',#{keyword},'%')
+              </when>
+
+              <when test = "type='c'.toString()">
+                content like concat('%',#{keyword},'%')
+              </when>
+            </choose>
+          </trim>
+        </foreach>
+      </trim>
+    </if>
+  </sql>
 </mapper>

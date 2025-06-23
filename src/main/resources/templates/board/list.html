@@ -5,6 +5,44 @@
       layout:decorate="~{layout/layout}"
 >
 <div layout:fragment="content">
+  <!-- 검색 -->
+  <form action="/board/list" class="d-flex" role="search" style="justify-content : space-between">
+    <input type="hidden" name="pageNo" th:value="1">
+    <input type="hidden" name="qty" th:value="${ph.pagingVO.qty}">
+
+    <select class="form-select" aria-label="Default select example" style="width : 250px;">
+      <option th:selected="${ph.pagingVO.type eq null ? true : false}">---선택---</option>
+      <option th:value="twc" th:selected="${ph.pagingVO.type eq 'twc' ? true : false}">---전체---</option>
+      <option th:value="t" th:selected="${ph.pagingVO.type eq 't' ? true : false}">제목</option>
+      <option th:value="w" th:selected="${ph.pagingVO.type eq 'w' ? true : false}">작성자</option>
+      <option th:value="c" th:selected="${ph.pagingVO.type eq 'c' ? true : false}">내용</option>
+      <option th:value="tc" th:selected="${ph.pagingVO.type eq 'tc' ? true : false}">제목 + 내용</option>
+      <option th:value="wc" th:selected="${ph.pagingVO.type eq 'wc' ? true : false}">작성자 + 내용</option>
+      <option th:value="tw" th:selected="${ph.pagingVO.type eq 'tw' ? true : false}">제목 + 작성자</option>
+    </select>
+
+    <div style="display : flex;">
+      <input
+        class="form-control me-2"
+        type="search"
+        name="keyword"
+        placeholder="Search"
+        aria-label="Search"
+        th:value="${ph.pagingVO.keyword}"
+        style="width : 300px;"
+      />
+
+      <button type="submit" class="btn btn-primary position-relative">
+        Search
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          [[${ph.ttc}]]
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </button>
+    </div>
+  </form>
+
+
   <table class="table">
     <thead>
       <tr>
@@ -17,7 +55,7 @@
       <th:block th:each="bvo:${list}">
         <tr>
           <!-- 쿼리스트링으로 복수 파라미터를 전달하는 경우
-            > <a th:href="@{/search(keyword=${keyword}, page=${page})}">검색</a> 형태로 작성
+            > /* <a th:href="@{/search(keyword=${keyword}, page=${page})}">검색</a> 형태로 작성 */
           -->
           <th scope="col"><a th:href="@{/board/detail(bno=${bvo.bno})}">[[${bvo.title}]]</a></th>
           <th scope="col">[[${bvo.writer}]]</th>
@@ -26,6 +64,43 @@
       </th:block>
     </tbody>
   </table>
+
+  <!-- 페이지네이션 -->
+  <!-- thymeleaf 에서의 동적 클래스 추가 -->
+  <div style="">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
+          <a
+            class="page-link"
+            th:href="@{/board/list(pageNo=${ph.startIdxPage - 1}, qty=${ph.pagingVO.qty}, type=${ph.pagingVO.type}, keyword=${ph.pagingVO.keyword})}"
+          >
+            이전
+          </a>
+        </li>
+
+        <!-- /* begin end 옵션이 없기에 ${numbers.sequence(from, to)} 를 사용해야 함 */ -->
+        <th:block th:each="i:${#numbers.sequence(ph.startIdxPage, ph.endIdxPage)}">
+          <li class="page-item" th:classappend="${ph.pagingVO.pageNo eq i ? 'active' : ''}">
+            <a
+              class="page-link"
+              th:href="@{/board/list(pageNo=${i}, qty=${ph.pagingVO.qty}, type=${ph.pagingVO.type}, keyword=${ph.pagingVO.keyword})}">
+              [[${i}]]
+            </a>
+          </li>
+        </th:block>
+
+        <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
+          <a
+            class="page-link"
+            th:href="@{/board/list(pageNo=${ph.endIdxPage + 1}, qty=${ph.pagingVO.qty}, type=${ph.pagingVO.type}, keyword=${ph.pagingVO.keyword})}"
+          >
+            다음
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 
   <script th:inline="javascript">
     const delMsg = [[${delMsg}]];

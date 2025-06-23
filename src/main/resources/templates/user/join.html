@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}"
+>
+<head>
+  <th:block layout:fragment="pageCss">
+    <link rel="stylesheet" th:href="@{/dist/css/join.css}">
+  </th:block>
+</head>
+
+<div layout:fragment="content">
+    <div class="signup-container">
+      <h1>회원가입</h1>
+      <form action="/user/join" method="post" id="signupForm">
+        <!-- csrf Token, Spring 과 달리 "th:" 꼭 붙여주어야 함!!!! -->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <!-- 아이디 -->
+        <div class="form-group">
+          <label for="id">아이디</label>
+          <input type="text" id="id" name="id" placeholder="영문, 숫자 4~12자" required
+                 pattern="[A-Za-z0-9]{4,12}" title="영문과 숫자 4~12자">
+        </div>
+
+        <!-- 이메일 -->
+        <div class="form-group">
+          <label for="email">이메일</label>
+          <input type="email" id="email" name="email" placeholder="example@domain.com" required>
+        </div>
+
+        <!-- 비밀번호 -->
+        <div class="form-group">
+          <label for="pwd">비밀번호</label>
+          <input type="password" id="pwd" name="pwd" placeholder="8~16자 영문·숫자·특수문자" required
+                 pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,16}"
+                 title="영문, 숫자, 특수문자 포함 8~16자">
+        </div>
+
+        <!-- 이름 -->
+        <div class="form-group">
+          <label for="nickName">닉네임</label>
+          <input type="text" id="nickName" name="nickName" placeholder="이름을 입력하세요" required>
+        </div>
+
+        <!-- 성별 -->
+        <div class="form-group">
+          <label>성별</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gender" value="male" required> 남성</label>
+            <label><input type="radio" name="gender" value="female"> 여성</label>
+          </div>
+        </div>
+
+        <!-- 약관 동의 -->
+        <div class="form-group checkbox-group">
+          <label>
+            <input type="checkbox" name="terms" value="Y" required>
+            <span>이용약관 및 개인정보처리방침에 동의합니다.</span>
+          </label>
+        </div>
+
+        <!-- 버튼 -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">회원가입</button>
+          <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+        </div>
+      </form>
+  </div>
+</div>

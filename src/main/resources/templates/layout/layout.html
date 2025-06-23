@@ -21,7 +21,9 @@
   <title>Title</title>
   <!-- BootStrap CSS, JS 링크 연결은 여기서 -->
   <link rel="stylesheet" th:href="@{/dist/css/bootstrap.min.css}">
+<!--  <link rel="stylesheet" th:href="@{/css/join.css}">-->
   <script th:src="@{/dist/js/bootstrap.bundle.min.js}"></script>
+  <th:block layout:fragment="pageCss"></th:block>
 </head>
 <body>
   <!--/* fragment 조각을 사용 하는 경우, <div th:replace="배치할 파일의 경로 :: 이름"> 로 작성*/-->

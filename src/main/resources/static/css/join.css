@@ -1,0 +1,127 @@
+/* signup.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+*/
+
+.signup-container {
+  background: #ffffff;
+  width: 400px;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.signup-container h1 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+  color: #444;
+}
+
+/* 입력 그룹 */
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="tel"],
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.form-group input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+/* 생년월일 입력 */
+.dob-group .dob-inputs {
+  display: flex;
+  gap: 8px;
+}
+.dob-inputs input {
+  flex: 1;
+}
+
+/* 라디오 버튼 그룹 */
+.radio-group {
+  display: flex;
+  gap: 16px;
+}
+.radio-group label {
+  font-weight: 400;
+}
+
+/* 체크박스 */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.checkbox-group input {
+  transform: scale(1.1);
+}
+
+/* 버튼 그룹 */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-primary {
+  background-color: #4caf50;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #43a047;
+}
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: #333;
+}
+.btn-secondary:hover {
+  background-color: #d5d5d5;
+}
+
+/* 반응형 */
+@media (max-width: 420px) {
+  .signup-container {
+    width: 90%;
+    padding: 24px;
+  }
+  .radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

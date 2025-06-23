@@ -4,5 +4,53 @@ bno BIGINT PRIMARY KEY,
 title VARCHAR(200) NOT NULL,
 writer VARCHAR(200) NOT NULL,
 content TEXT,
+reg_date DATETIME DEFAULT NOW(),
+cmt_cnt int DEFAULT 0
+);
+
+-----------------------------------------------------------------------
+
+# 2025.06.19
+CREATE TABLE file(
+uuid VARCHAR(256) PRIMARY KEY,
+save_dir VARCHAR(256) NOT NULL,
+file_name VARCHAR(256) NOT NULL,
+file_type TINYINT(1) DEFAULT 0,
+bno BIGINT NOT NULL,
+file_size BIGINT,
 reg_date DATETIME DEFAULT NOW()
 );
+
+-----------------------------------------------------------------------
+# 2025.06.20
+CREATE TABLE user(
+id VARCHAR(256) PRIMARY KEY,
+email VARCHAR(256) NOT NULL,
+pwd VARCHAR(256) NOT NULL,
+nick_name VARCHAR(256) UNIQUE,
+gender VARCHAR(20) NOT NULL,
+terms VARCHAR(5) NOT NULL DEFAULT 'Y',
+reg_date DATETIME DEFAULT NOW(),
+last_login DATETIME DEFAULT NOW(),
+file_name VARCHAR(256),
+save_dir VARCHAR(256)
+);
+
+CREATE TABLE auth(
+auth_no BIGINT AUTO_INCREMENT PRIMARY KEY,
+id VARCHAR(256) NOT NULL,
+auth VARCHAR(30) NOT NULL,
+FOREIGN KEY(id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+ALTER TABLE board ADD cmt_cnt int DEFAULT 0;
+
+CREATE TABLE comment(
+cno BIGINT AUTO_INCREMENT PRIMARY KEY,
+bno BIGINT NOT NULL,
+file_name VARCHAR(256),
+writer VARCHAR(256) NOT NULL,
+content TEXT,
+reg_date DATETIME DEFAULT NOW()
+);
+-----------------------------------------------------------------------
